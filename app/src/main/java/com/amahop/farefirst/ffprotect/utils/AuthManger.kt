@@ -26,24 +26,22 @@ object AuthManger {
     }
 
     fun requestSignIn(activity: Activity) {
-        activity.startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(
-                    listOf(
-                        AuthUI.IdpConfig.PhoneBuilder().build()
-                    )
+        val intent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(
+                listOf(
+                    AuthUI.IdpConfig.PhoneBuilder().build()
                 )
-                .setIsSmartLockEnabled(false)
-                .setTheme(R.style.AuthTheme)
-                .setLogo(R.drawable.ic_ff_protect_wrting_logo)
-                .setTosAndPrivacyPolicyUrls(
-                    RemoteConfigManager.getTermsUrl(),
-                    RemoteConfigManager.getPrivacyUrl()
-                )
-                .build(),
-            RC_SIGN_IN
-        )
+            )
+            .setIsSmartLockEnabled(false)
+            .setTheme(R.style.AuthTheme)
+            .setLogo(R.drawable.ic_ff_protect_wrting_logo)
+            .setTosAndPrivacyPolicyUrls(
+                RemoteConfigManager.getTermsUrl(),
+                RemoteConfigManager.getPrivacyUrl()
+            )
+            .build()
+        activity.startActivityForResult(intent, RC_SIGN_IN)
     }
 
     fun requestSignOut(activity: Activity, listener: (isSuccess: Boolean) -> Unit) {
@@ -55,7 +53,7 @@ object AuthManger {
                 )
 
                 listener(true)
-                
+
                 val intent = Intent(
                     activity,
                     MainActivity::class.java
